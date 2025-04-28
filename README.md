@@ -1,20 +1,22 @@
 # Clover.space-Api
 
 📜 Documentación del Script de WebSocket y Envío de Mensajes
-Descripción general
-Este script JavaScript establece una conexión WebSocket a un servidor en wss://api.clover.space/v1/chat/web-ws, escucha los mensajes entrantes, los procesa y los muestra en el navegador dentro de un div con id messages.
-Además, envía la información del mensaje recibido a una API externa (https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P) utilizando una petición HTTP POST.
+📖 Descripción General
+Este script JavaScript establece una conexión WebSocket con el servidor en wss://api.clover.space/v1/chat/web-ws, escucha los mensajes entrantes, los procesa y los muestra en el navegador dentro de un <div> con id messages.
+Además, envía la información de los mensajes recibidos a una API externa mediante una petición HTTP POST:
+
+https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P
 
 📂 Estructura del Script
 1. Definición de Variables Iniciales
 javascript
 Copiar
 Editar
-const url = 'wss://api.clover.space/v1/chat/web-ws?...'; 
+const url = 'wss://api.clover.space/v1/chat/web-ws?...';
 const messagesDiv = document.getElementById('messages');
-url: contiene la dirección WebSocket con parámetros de conexión codificados.
+url: Contiene la dirección WebSocket con parámetros de conexión codificados.
 
-messagesDiv: referencia al elemento HTML donde se mostrarán los mensajes recibidos.
+messagesDiv: Referencia al elemento HTML donde se mostrarán los mensajes recibidos.
 
 2. Creación de Conexión WebSocket
 javascript
@@ -32,9 +34,9 @@ socket.onopen = function() {
   console.log('Conexión WebSocket abierta');
   socket.send('¡Hola, servidor!');
 };
-Cuando la conexión se abre, se imprime un mensaje en consola.
+Se imprime en consola que la conexión está abierta.
 
-Se envía un mensaje inicial (¡Hola, servidor!) al servidor para confirmar la conexión.
+Se envía un mensaje inicial para confirmar la conexión.
 
 socket.onmessage
 javascript
@@ -42,39 +44,37 @@ Copiar
 Editar
 socket.onmessage = function(event) {
   const messageData = JSON.parse(event.data);
-  ...
+  // Procesamiento de mensaje...
 };
-Cuando se recibe un mensaje:
+Se convierte event.data de JSON a objeto JavaScript.
 
-Se parsea el event.data de JSON a un objeto de JavaScript (messageData).
+Se valida que messageData contenga estructura.
 
-Se valida que messageData tenga estructura (msg y msg.author).
+Se extraen los siguientes datos:
 
-Se extraen datos importantes:
+nickname
 
-nickname → nombre del autor
+socialId
 
-socialId → identificador social del autor
+content
 
-content → contenido del mensaje
+recipientNickname
 
-recipientNickname → nombre del destinatario
+recipientSocialId
 
-recipientSocialId → identificador social del destinatario
-
-senderUID → identificador único del remitente
+senderUID
 
 Si el contenido no está vacío:
 
-Se crea dinámicamente un bloque HTML (div) para mostrar el mensaje y sus metadatos.
+Se crea un bloque HTML dinámico para mostrar el mensaje.
 
-Se clasifica el mensaje como enviado (sent) o recibido (received) dependiendo del senderUID.
+Se clasifica como enviado o recibido.
 
-Se añade el mensaje al messagesDiv.
+Se añade al messagesDiv.
 
-Se envía un objeto messagePayload con la información relevante a la API externa usando fetch.
+Se envía la información a la API externa.
 
-Detalle del fetch
+Detalle del fetch:
 javascript
 Copiar
 Editar
@@ -82,8 +82,8 @@ fetch('https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(messagePayload)
-})
-Envía la información del mensaje recibido como un objeto JSON a una API REST.
+});
+Envía la información de cada mensaje a una API REST en formato JSON.
 
 socket.onerror
 javascript
@@ -92,7 +92,7 @@ Editar
 socket.onerror = function(error) {
   console.error('Error en WebSocket:', error);
 };
-Captura y muestra errores de conexión del WebSocket.
+Captura y muestra errores en consola.
 
 socket.onclose
 javascript
@@ -101,7 +101,7 @@ Editar
 socket.onclose = function(event) {
   console.log('Conexión WebSocket cerrada:', event);
 };
-Informa cuando la conexión WebSocket se ha cerrado.
+Informa el cierre de la conexión WebSocket.
 
 4. Scroll Automático de Mensajes
 javascript
@@ -110,24 +110,26 @@ Editar
 setInterval(function() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }, 2000);
-Cada 2 segundos, se fuerza el scroll del messagesDiv hacia abajo para siempre mostrar el último mensaje recibido, como en un chat en vivo.
+Cada 2 segundos, fuerza el scroll hacia el último mensaje recibido (efecto de chat en vivo).
 
-🛠️ Resumen de funcionalidades
+🛠️ Resumen de Funcionalidades
 
 Función	Descripción
-Conexión WebSocket	Se conecta al servidor clover.space para recibir mensajes de chat.
+Conexión WebSocket	Se conecta al servidor Clover.space para recibir mensajes de chat.
 Recepción de mensajes	Lee, procesa y muestra los mensajes entrantes en pantalla.
-Clasificación de mensajes	Diferencia si el mensaje fue enviado o recibido según el senderUID.
-Envío de datos a API externa	Reporta la información de los mensajes a una API REST pública usando POST.
-Scroll automático	Mantiene siempre visible el último mensaje en pantalla.
-Manejo de errores	Registra fallos en la conexión WebSocket.
-💡 Notas adicionales
+Clasificación de mensajes	Distingue si el mensaje fue enviado o recibido usando senderUID.
+Envío de datos a API externa	Envía la información del mensaje a una API REST pública usando POST.
+Scroll automático	Mantiene visible el último mensaje en pantalla constantemente.
+Manejo de errores	Registra errores de la conexión WebSocket en consola.
+💡 Notas Adicionales
 El senderUID 1885294858220892160 parece representar al usuario actual.
-Si un mensaje es de este UID, se clasifica como sent (enviado); de lo contrario como received (recibido).
 
-sId en la URL es un parámetro de sesión codificado en base64/URL, posiblemente usado para autenticar al cliente.
+Si un mensaje proviene de este UID, se clasifica como enviado (sent), de lo contrario como recibido (received).
 
-fetch realiza una llamada asincrónica (promise) para enviar los datos.
+El parámetro sId en la URL parece ser un identificador de sesión codificado (Base64/URL).
 
-No hay un sistema de reconexión automática si se pierde la conexión (onclose solo muestra en consola).
+fetch es una llamada asincrónica (Promise).
+
+Actualmente no existe un sistema de reconexión automática en caso de que la conexión WebSocket se cierre.
+
 
