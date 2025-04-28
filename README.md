@@ -10,7 +10,7 @@ La URL incluye parámetros personalizados como sId y accessToken, que identifica
 
 ## 📤 API de destino para envío
 Cada mensaje recibido es enviado a:
-- `https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P`
+- `https://680adf85******.mockapi.io/BszApi`
 - El envío es en formato application/json, facilitando la integración con otros sistemas backend.
 
 ## ✨ Características principales
