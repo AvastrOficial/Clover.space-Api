@@ -1,108 +1,48 @@
-# Clover.space-Api
+# Clover.space-Api📡 WebSocket Chat Sender
+> Es una herramienta web que establece una conexión en vivo mediante WebSocket para recibir mensajes y enviarlos automáticamente a una API externa. Ideal para integraciones en sistemas de notificaciones, chats en tiempo real o dashboards de monitoreo.
 
-<div align="center">
-📜 WebSocket Chat & API Sender
-Script para conexión WebSocket, recepción de mensajes en vivo y envío de datos a una API externa.
+## 🚀 ¿Cómo funciona?
+> El script crea una conexión WebSocket hacia un servidor específico, escucha los mensajes entrantes y, cada vez que recibe uno, lo muestra en pantalla y lo reenvía a una API externa usando fetch().
 
-</div>
-🚀 Descripción General
-Este script JavaScript establece una conexión WebSocket a:
+## 🌐 Servidor WebSocket
+- `wss://api.clover.space/v1/chat/web-ws`
+La URL incluye parámetros personalizados como sId y accessToken, que identifican al usuario y autorizan la conexión.
 
-wss://api.clover.space/v1/chat/web-ws
+## 📤 API de destino para envío
+Cada mensaje recibido es enviado a:
+- `https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P`
+- El envío es en formato application/json, facilitando la integración con otros sistemas backend.
 
-Permite:
+## ✨ Características principales
+> Funcionalidad	Descripción
+> Conexión en vivo	Se conecta mediante WebSocket en tiempo real.
+> Recepción de mensajes	Escucha y muestra mensajes entrantes.
+> Reenvío a API externa	Cada mensaje se reenvía automáticamente a una API REST.
+> Scroll automático	El área de mensajes se mantiene siempre enfocada al último mensaje.
+> Manejo de errores	Detecta errores de conexión y los muestra en consola.
+## 🛠️ Tecnologías utilizadas
+- HTML5
+- JavaScript (Vanilla)
+- WebSocket API
+- Fetch API
 
-📥 Escuchar mensajes entrantes.
+## 📸 Ejemplo visual
+```bash
+  [Usuario] Hola, ¿cómo estás?<br>
+  [Bot] ¡Hola! ¿En qué puedo ayudarte hoy?<br>
+```
+El div de mensajes se actualiza en tiempo real conforme llegan nuevos mensajes.
 
-📤 Mostrar mensajes en un <div id="messages">.
+## 📝 Cómo usar
+- Asegúrate de incluir el archivo JavaScript en tu proyecto.
+- Personaliza la URL del WebSocket si es necesario.
+- Asegúrate que el contenedor HTML tenga el ID messages.
+- El script gestionará la conexión, la escucha y el reenvío automáticamente.
 
-🌐 Enviar los mensajes recibidos a una API externa mediante una petición HTTP POST:
+##⚠️ Advertencias
+- Asegúrate de manejar correctamente la seguridad del WebSocket y la API REST si piensas usar este proyecto en producción.
+- El servidor WebSocket puede requerir tokens de sesión válidos y actualizados.
+- La API Mock utilizada puede tener límites de uso.
 
-https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P
-
-📂 Estructura del Script
-1. Variables Iniciales
-javascript
-Copiar
-Editar
-const url = 'wss://api.clover.space/v1/chat/web-ws?...';
-const messagesDiv = document.getElementById('messages');
-url: Dirección WebSocket con parámetros codificados.
-
-messagesDiv: Contenedor HTML donde se imprimirán los mensajes.
-
-2. Conexión WebSocket
-javascript
-Copiar
-Editar
-const socket = new WebSocket(url);
-Se instancia la conexión al servidor WebSocket.
-
-3. Manejadores de Eventos
-
-Evento	Acción
-onopen	Notifica la apertura de la conexión y envía un mensaje de saludo.
-onmessage	Procesa y muestra el mensaje, además de enviarlo a una API externa.
-onerror	Muestra los errores de conexión en consola.
-onclose	Informa el cierre de la conexión WebSocket.
-✉️ Ejemplo de onmessage
-javascript
-Copiar
-Editar
-socket.onmessage = function(event) {
-  const messageData = JSON.parse(event.data);
-  
-  // Procesar mensaje
-  if (messageData?.msg?.content) {
-    // Crear HTML dinámico
-    // Enviar información a la API externa
-  }
-};
-4. Envío de Datos a API Externa
-javascript
-Copiar
-Editar
-fetch('https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(messagePayload)
-});
-Método: POST
-
-Formato: application/json
-
-Objetivo: Reportar cada mensaje recibido a la API.
-
-5. Scroll Automático
-javascript
-Copiar
-Editar
-setInterval(function() {
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}, 2000);
-Simula el efecto de "chat en vivo", mostrando siempre el último mensaje.
-
-🛠️ Funcionalidades
-
-Función	Descripción
-🔌 Conexión WebSocket	Se conecta al servidor para recepción de mensajes.
-📨 Recepción de mensajes	Procesa y muestra mensajes nuevos en pantalla.
-🧹 Clasificación de mensajes	Diferencia entre enviados y recibidos usando senderUID.
-🔄 Envío a API externa	Envía cada mensaje a un servidor REST público.
-📜 Scroll automático	Asegura que siempre se vea el último mensaje.
-⚠️ Manejo de errores	Detecta y registra errores de la conexión WebSocket.
-💡 Notas Adicionales
-🆔 senderUID = 1885294858220892160 identifica al usuario actual (mensajes enviados).
-
-📎 El parámetro sId en la URL parece ser un token de sesión codificado en Base64.
-
-🔗 fetch() usa promesas asincrónicas para enviar datos.
-
-❌ No hay reconexión automática implementada si la conexión WebSocket se cierra.
-
-<div align="center">
-Hecho con 💻, ☕ y mucha paciencia.
-Contribuciones y mejoras son bienvenidas.
-
-</div>
-
+## 📄 Licencia
+> Este proyecto está liberado bajo la licencia MIT.
