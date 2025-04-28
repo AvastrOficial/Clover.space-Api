@@ -1,80 +1,64 @@
 # Clover.space-Api
 
-📜 Documentación del Script de WebSocket y Envío de Mensajes
-📖 Descripción General
-Este script JavaScript establece una conexión WebSocket con el servidor en wss://api.clover.space/v1/chat/web-ws, escucha los mensajes entrantes, los procesa y los muestra en el navegador dentro de un <div> con id messages.
-Además, envía la información de los mensajes recibidos a una API externa mediante una petición HTTP POST:
+<div align="center">
+📜 WebSocket Chat & API Sender
+Script para conexión WebSocket, recepción de mensajes en vivo y envío de datos a una API externa.
+
+</div>
+🚀 Descripción General
+Este script JavaScript establece una conexión WebSocket a:
+
+wss://api.clover.space/v1/chat/web-ws
+
+Permite:
+
+📥 Escuchar mensajes entrantes.
+
+📤 Mostrar mensajes en un <div id="messages">.
+
+🌐 Enviar los mensajes recibidos a una API externa mediante una petición HTTP POST:
 
 https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P
 
 📂 Estructura del Script
-1. Definición de Variables Iniciales
+1. Variables Iniciales
 javascript
 Copiar
 Editar
 const url = 'wss://api.clover.space/v1/chat/web-ws?...';
 const messagesDiv = document.getElementById('messages');
-url: Contiene la dirección WebSocket con parámetros de conexión codificados.
+url: Dirección WebSocket con parámetros codificados.
 
-messagesDiv: Referencia al elemento HTML donde se mostrarán los mensajes recibidos.
+messagesDiv: Contenedor HTML donde se imprimirán los mensajes.
 
-2. Creación de Conexión WebSocket
+2. Conexión WebSocket
 javascript
 Copiar
 Editar
 const socket = new WebSocket(url);
-Se instancia un objeto WebSocket que abre una conexión con la URL especificada.
+Se instancia la conexión al servidor WebSocket.
 
-3. Manejadores de Eventos de WebSocket
-socket.onopen
-javascript
-Copiar
-Editar
-socket.onopen = function() {
-  console.log('Conexión WebSocket abierta');
-  socket.send('¡Hola, servidor!');
-};
-Se imprime en consola que la conexión está abierta.
+3. Manejadores de Eventos
 
-Se envía un mensaje inicial para confirmar la conexión.
-
-socket.onmessage
+Evento	Acción
+onopen	Notifica la apertura de la conexión y envía un mensaje de saludo.
+onmessage	Procesa y muestra el mensaje, además de enviarlo a una API externa.
+onerror	Muestra los errores de conexión en consola.
+onclose	Informa el cierre de la conexión WebSocket.
+✉️ Ejemplo de onmessage
 javascript
 Copiar
 Editar
 socket.onmessage = function(event) {
   const messageData = JSON.parse(event.data);
-  // Procesamiento de mensaje...
+  
+  // Procesar mensaje
+  if (messageData?.msg?.content) {
+    // Crear HTML dinámico
+    // Enviar información a la API externa
+  }
 };
-Se convierte event.data de JSON a objeto JavaScript.
-
-Se valida que messageData contenga estructura.
-
-Se extraen los siguientes datos:
-
-nickname
-
-socialId
-
-content
-
-recipientNickname
-
-recipientSocialId
-
-senderUID
-
-Si el contenido no está vacío:
-
-Se crea un bloque HTML dinámico para mostrar el mensaje.
-
-Se clasifica como enviado o recibido.
-
-Se añade al messagesDiv.
-
-Se envía la información a la API externa.
-
-Detalle del fetch:
+4. Envío de Datos a API Externa
 javascript
 Copiar
 Editar
@@ -83,53 +67,42 @@ fetch('https://680adf85d5075a76d989255b.mockapi.io/DeepNet/R/1/P', {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(messagePayload)
 });
-Envía la información de cada mensaje a una API REST en formato JSON.
+Método: POST
 
-socket.onerror
-javascript
-Copiar
-Editar
-socket.onerror = function(error) {
-  console.error('Error en WebSocket:', error);
-};
-Captura y muestra errores en consola.
+Formato: application/json
 
-socket.onclose
-javascript
-Copiar
-Editar
-socket.onclose = function(event) {
-  console.log('Conexión WebSocket cerrada:', event);
-};
-Informa el cierre de la conexión WebSocket.
+Objetivo: Reportar cada mensaje recibido a la API.
 
-4. Scroll Automático de Mensajes
+5. Scroll Automático
 javascript
 Copiar
 Editar
 setInterval(function() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }, 2000);
-Cada 2 segundos, fuerza el scroll hacia el último mensaje recibido (efecto de chat en vivo).
+Simula el efecto de "chat en vivo", mostrando siempre el último mensaje.
 
-🛠️ Resumen de Funcionalidades
+🛠️ Funcionalidades
 
 Función	Descripción
-Conexión WebSocket	Se conecta al servidor Clover.space para recibir mensajes de chat.
-Recepción de mensajes	Lee, procesa y muestra los mensajes entrantes en pantalla.
-Clasificación de mensajes	Distingue si el mensaje fue enviado o recibido usando senderUID.
-Envío de datos a API externa	Envía la información del mensaje a una API REST pública usando POST.
-Scroll automático	Mantiene visible el último mensaje en pantalla constantemente.
-Manejo de errores	Registra errores de la conexión WebSocket en consola.
+🔌 Conexión WebSocket	Se conecta al servidor para recepción de mensajes.
+📨 Recepción de mensajes	Procesa y muestra mensajes nuevos en pantalla.
+🧹 Clasificación de mensajes	Diferencia entre enviados y recibidos usando senderUID.
+🔄 Envío a API externa	Envía cada mensaje a un servidor REST público.
+📜 Scroll automático	Asegura que siempre se vea el último mensaje.
+⚠️ Manejo de errores	Detecta y registra errores de la conexión WebSocket.
 💡 Notas Adicionales
-El senderUID 1885294858220892160 parece representar al usuario actual.
+🆔 senderUID = 1885294858220892160 identifica al usuario actual (mensajes enviados).
 
-Si un mensaje proviene de este UID, se clasifica como enviado (sent), de lo contrario como recibido (received).
+📎 El parámetro sId en la URL parece ser un token de sesión codificado en Base64.
 
-El parámetro sId en la URL parece ser un identificador de sesión codificado (Base64/URL).
+🔗 fetch() usa promesas asincrónicas para enviar datos.
 
-fetch es una llamada asincrónica (Promise).
+❌ No hay reconexión automática implementada si la conexión WebSocket se cierra.
 
-Actualmente no existe un sistema de reconexión automática en caso de que la conexión WebSocket se cierre.
+<div align="center">
+Hecho con 💻, ☕ y mucha paciencia.
+Contribuciones y mejoras son bienvenidas.
 
+</div>
 
