@@ -32,6 +32,8 @@ Cada mensaje recibido es enviado a:
   [Bot] ¡Hola! ¿En qué puedo ayudarte hoy?<br>
 ```
 El div de mensajes se actualiza en tiempo real conforme llegan nuevos mensajes.
+![image](https://github.com/user-attachments/assets/18531523-9559-448f-b980-7ca7f1131195)
+![image](https://github.com/user-attachments/assets/5e0b738f-792a-4e29-a017-0c26e9d6eb41)
 
 ## 📝 Cómo usar
 - Asegúrate de incluir el archivo JavaScript en tu proyecto.
@@ -47,3 +49,6 @@ El div de mensajes se actualiza en tiempo real conforme llegan nuevos mensajes.
 ## 📄 Licencia
 > Este proyecto está liberado bajo la licencia MIT.
 ![image](https://github.com/user-attachments/assets/6a054731-cbc8-44d3-b2f9-e763bc8210d0)
+
+## Como Generar Tu Propio Token : 
+
