@@ -48,7 +48,12 @@ El div de mensajes se actualiza en tiempo real conforme llegan nuevos mensajes.
 
 ## 📄 Licencia
 > Este proyecto está liberado bajo la licencia MIT.
+
 ![image](https://github.com/user-attachments/assets/6a054731-cbc8-44d3-b2f9-e763bc8210d0)
 
-## Como Generar Tu Propio Token : 
+## Como Generar Tu Propio Token :
+Paso 1 : 
+- `https://files.catbox.moe/s5gmv8.mp4`
+paso 2 : 
+
 
