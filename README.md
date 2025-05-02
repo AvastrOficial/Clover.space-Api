@@ -46,9 +46,6 @@ El div de mensajes se actualiza en tiempo real conforme llegan nuevos mensajes.
 - El servidor WebSocket puede requerir tokens de sesión válidos y actualizados.
 - La API Mock utilizada puede tener límites de uso.
 
-## 📄 Licencia
-> Este proyecto está liberado bajo la licencia MIT.
-
 ![image](https://github.com/user-attachments/assets/6a054731-cbc8-44d3-b2f9-e763bc8210d0)
 
 ## Como Generar Tu Propio Token :
@@ -57,4 +54,8 @@ Paso 1 :
 
 paso 2 : 
 - `https://files.catbox.moe/bw76gu.mp4`
-
+## 📤 API de destintos temas :
+Api Y Documentacion Para Ver Los Post Resientes y TOP
+- `https://github.com/AvastrOficial/Clover.Space-PostBlog-Apis`
+Api Y Documentacion para ver La Lista De Usuarios
+- `https://github.com/AvastrOficial/Clover.Space-ListUser-Api`
