@@ -4,6 +4,9 @@
 ## 🚀 ¿Cómo funciona?
 > El script crea una conexión WebSocket hacia un servidor específico, escucha los mensajes entrantes y, cada vez que recibe uno, lo muestra en pantalla y lo reenvía a una API externa usando fetch().
 
+## Requesitos :
+> Ocupas Un Servidro Temporal 
+- `https://cors-anywhere.herokuapp.com/corsdemo`
 ## 🌐 Servidor WebSocket
 - `wss://api.clover.space/v1/chat/web-ws`
 La URL incluye parámetros personalizados como sId y accessToken, que identifican al usuario y autorizan la conexión.
