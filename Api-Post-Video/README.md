@@ -2,6 +2,14 @@
 
 Este proyecto es un servidor Node.js con Express que actúa como intermediario (proxy) para acceder a una API externa (`https://api.clover.space/f/v1/blogs`) con cabeceras personalizadas. Además, sirve una página web estática desde la carpeta `/public`.
 
+## 🌎 Regiones Soportadas
+El servidor solo acepta solicitudes de las siguientes regiones:
+
+```javascript
+headers: {
+  "Accept-Language": "es-MX,es-AR,es-CL,es-CO,es-PE,es-VE,es;q=0.9,es-419;q=0.8"
+}
+```
 ## ¿Para qué sirve?
 
 Este servidor permite:
