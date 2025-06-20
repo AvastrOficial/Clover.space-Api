@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Videos de Clover.social Bsz</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      width: 350px;
+      border-radius: 30px;
+      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      color: #fff;
+      margin: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+    .card video {
+      width: 100%;
+      aspect-ratio: 16 / 16;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .card p {
+      padding: 1rem;
+      margin: 0;
+      font-size: 15px;
+      color: #d1d1d6;
+    }
+    .author {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .author span {
+      font-weight: 500;
+      color: #fff;
+    }
+    .author button {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 13px;
+      margin-left: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .author button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    #page-token {
+      text-align: center;
+      margin: 20px 0;
+      color: #0f0;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align: center;">Autor : AvaStrOficial</h1>
+
+  <div class="container" id="blog-container"></div>
+
+  <!-- Aquí solo se mostrará el token -->
+  <div id="page-token"></div>
+
+  <script>
+    const container = document.getElementById("blog-container");
+    const pageTokenDiv = document.getElementById("page-token");
+
+    let nextPageToken = null;
+
+    function loadVideos() {
+      let url = "/api/videos";
+      if (nextPageToken) {
+        url += `?pageToken=${encodeURIComponent(nextPageToken)}`;
+      }
+
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          const posts = json.list || [];
+          nextPageToken = json.pagination?.nextPageToken || null;
+
+          // Mostrar solo el token en pantalla
+          pageTokenDiv.textContent = nextPageToken
+            ? `Próximo pageToken: ${nextPageToken}`
+            : "No hay más páginas.";
+
+          posts.forEach(post => {
+            const title = post.title || "";
+            const content = post.content || "";
+            const media = post.mediaList?.[0];
+            const video = media?.resourceList?.[0]?.url || null;
+            const poster = media?.cover?.resourceList?.[0]?.url || "";
+            const author = post.author || {};
+            const nickname = author.nickname || "Desconocido";
+            const uid = BigInt(author.uid || 0).toString();
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const videoHTML = video ? `
+              <video controls poster="${poster}">
+                <source src="${video}" type="video/mp4">
+                Tu navegador no soporta videos.
+              </video>
+            ` : "";
+
+            const titleHTML = title ? `<h3>${title}</h3>` : "";
+            const descHTML = content ? `<p>${content}</p>` : "";
+            const authorHTML = `
+              <div class="author">
+                <span>${nickname}</span>
+                <div>
+                  <button onclick="window.open('https://clover.space/user/${uid}', '_blank')">Ver perfil</button>
+                  <button onclick="alert('UID del autor: ${uid}')">Ver UID</button>
+                </div>
+              </div>
+            `;
+
+            card.innerHTML = `${videoHTML}${titleHTML}${descHTML}${authorHTML}`;
+            container.appendChild(card);
+          });
+
+          // Cargar siguiente página automáticamente si hay más
+          if (nextPageToken) {
+            setTimeout(() => loadVideos(), 1000);
+          }
+        })
+        .catch(err => {
+          pageTokenDiv.textContent = `Error al cargar datos: ${err.message}`;
+        });
+    }
+
+    loadVideos();
+  </script>
+</body>
+</html>
