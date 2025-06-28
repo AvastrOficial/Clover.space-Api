@@ -1,4 +1,5 @@
 # Clover.space-Api📡 WebSocket Chat Sender
+![Vistas](https://visitor-badge.laobi.icu/badge?page_id=Clover.Space-Api&left_text=Vistas&left_color=%23000000&right_color=%23666666)
 > Es una herramienta web que establece una conexión en vivo mediante WebSocket para recibir mensajes y enviarlos automáticamente a una API externa. Ideal para integraciones en sistemas de notificaciones, chats en tiempo real o dashboards de monitoreo.
 
 ## 🚀 ¿Cómo funciona?
