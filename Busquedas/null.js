@@ -18,7 +18,7 @@
     "ostype": "2",
     "rawdeviceid": "", ---> esto lo tendras que agregar tu 
     "rawdeviceidthree": "", ---> esto lo tendras que agregar tu 
-    "reqtime": "1751097207221",
+    "reqtime": "", ---> esto lo tendras que agregar tu 
     "sec-ch-ua": "\"Microsoft Edge\";v=\"137\", \"Chromium\";v=\"137\", \"Not/A)Brand\";v=\"24\"",
     "sec-ch-ua-mobile": "?1",
     "sec-ch-ua-platform": "\"Android\"",
