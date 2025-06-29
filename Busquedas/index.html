@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blogs Null </title>
+  <style>
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #2b2d31;
+    color: #dcddde;
+  }
+
+  h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .blog-card {
+    background-color: #313338;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px #00000040;
+  }
+
+  .blog-image {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 10px 0;
+    background-color: #1e1f22;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .author-info span {
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  button {
+    background-color: #5865f2;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+  }
+
+  button:hover {
+    background-color: #4752c4;
+  }
+
+  .comment-text {
+    margin-left: 50px;
+    font-style: italic;
+    color: #b9bbbe;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+</style>
+ 
+</head> 
+<body> 
+  <h1>Blogs Null - palabra +18</h1> 
+  <div id="blogContainer"></div>
+
+<script>
+  const apiBase = 'https://685f835bc55df675589e7e04.mockapi.io/Api/Bsz/Busqueda';
+
+  async function fetchBlog(id) {
+    try {
+      const res = await fetch(`${apiBase}/${id}`);
+      if (!res.ok) throw new Error(`ID ${id} no disponible`);
+      return await res.json();
+    } catch (err) {
+      console.warn(`Error al cargar ID ${id}:`, err);
+      return null;
+    }
+  }
+
+  async function loadAllBlogs(from = 1, to = 30) {
+    const container = document.getElementById('blogContainer');
+
+    for (let id = from; id <= to; id++) {
+      const entry = await fetchBlog(id);
+      if (!entry || !entry.blog) continue;
+
+      const blog = entry.blog;
+
+      const content = blog.content || '';
+      const imageUrl = blog.mediaList?.[0]?.resourceList?.[0]?.url || '';
+      const mainAuthor = blog.appearedCommentList?.[0]?.author || null;
+
+      const authors = blog.appearedCommentList || [];
+      const uniqueAuthors = new Map();
+
+      authors.forEach(comment => {
+        const author = comment.author;
+        if (author?.uid && !uniqueAuthors.has(author.uid)) {
+          uniqueAuthors.set(author.uid, { ...author, comment: comment.content });
+        }
+      });
+
+      console.log(`ID ${id} tiene ${uniqueAuthors.size} autores únicos`);
+
+      const card = document.createElement('div');
+      card.className = 'blog-card';
+
+      const title = document.createElement('h3');
+      title.textContent = `Post ID: ${id}`;
+      card.appendChild(title);
+
+      if (imageUrl) {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.className = 'blog-image';
+        card.appendChild(img);
+      }
+
+      const p = document.createElement('p');
+      p.textContent = content;
+      card.appendChild(p);
+
+      // Mostrar autor del blog (si existe)
+      if (mainAuthor) {
+        const blogAuthorDiv = document.createElement('div');
+        blogAuthorDiv.className = 'author-info';
+        blogAuthorDiv.style.marginTop = '10px';
+
+        const avatarUrl = mainAuthor.icon?.resourceList?.[0]?.url || '';
+        if (avatarUrl) {
+          const avatar = document.createElement('img');
+          avatar.className = 'author-avatar';
+          avatar.src = avatarUrl;
+          blogAuthorDiv.appendChild(avatar);
+        }
+
+        const name = document.createElement('span');
+        name.innerHTML = `<strong>${mainAuthor.nickname || 'Autor'}</strong>`;
+        blogAuthorDiv.appendChild(name);
+
+        if (mainAuthor.socialId) {
+          const profileBtn = document.createElement('button');
+          profileBtn.textContent = 'Ver Perfil del Autor';
+          profileBtn.style.marginLeft = '10px';
+          profileBtn.onclick = () => {
+            window.open(`https://clover.space/s/u/${mainAuthor.socialId}`, '_blank');
+          };
+          blogAuthorDiv.appendChild(profileBtn);
+        }
+
+        card.appendChild(blogAuthorDiv);
+      }
+
+      const count = document.createElement('p');
+      count.innerHTML = `<strong>Autores únicos en comentarios:</strong> ${uniqueAuthors.size}`;
+      card.appendChild(count);
+
+      // Mostrar autores de comentarios
+      uniqueAuthors.forEach(author => {
+        const authorDiv = document.createElement('div');
+        authorDiv.className = 'author-info';
+
+        const avatarUrl = author.icon?.resourceList?.[0]?.url || '';
+        if (avatarUrl) {
+          const avatar = document.createElement('img');
+          avatar.className = 'author-avatar';
+          avatar.src = avatarUrl;
+          authorDiv.appendChild(avatar);
+        }
+
+        const name = document.createElement('span');
+        name.textContent = author.nickname || 'Anónimo';
+        authorDiv.appendChild(name);
+
+        if (author.socialId) {
+          const profileButton = document.createElement('button');
+          profileButton.textContent = 'Ver Perfil';
+          profileButton.style.marginLeft = '10px';
+          profileButton.onclick = () => {
+            window.open(`https://clover.space/s/u/${author.socialId}`, '_blank');
+          };
+          authorDiv.appendChild(profileButton);
+        }
+
+        // Mostrar contenido del comentario también
+        const commentText = document.createElement('div');
+        commentText.style.marginLeft = '50px';
+        commentText.style.fontStyle = 'italic';
+        commentText.textContent = `"${author.comment}"`;
+        authorDiv.appendChild(commentText);
+
+        card.appendChild(authorDiv);
+      });
+
+      container.appendChild(card);
+    }
+  }
+
+  // Ejecutar
+  loadAllBlogs();
+</script>
+
+</body>
+</html>
