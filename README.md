@@ -278,6 +278,8 @@ await fetch(MOCKAPI_URL, {
 });
 ```
 
+![image](https://github.com/user-attachments/assets/47d2ccf9-1541-4961-bcdb-c3bae6854a7d)
+
 ---
 
 ## 🌐 async function fetchPage(nextPageToken = '')
