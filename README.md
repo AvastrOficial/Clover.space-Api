@@ -232,7 +232,7 @@ async function fetchAllBlogs(apiUrl, pageToken = '', collectedBlogs = []) {
 
 ---
 
-# 🌐 Blog Crawler y Almacenamiento – Clover API → MockAPI
+# 🌐 Busqueda / Blog Crawler y Almacenamiento – Clover API → MockAPI
 > Este script realiza la búsqueda automatizada de publicaciones tipo blog relacionadas con `t.me` en la API de **Clover.space**, y las guarda en la API de **MockAPI.io** por lotes (batch) hasta alcanzar un límite definido.
 ![image](https://github.com/user-attachments/assets/42eb5db6-80a9-490c-9c64-6b5747981645)
 
