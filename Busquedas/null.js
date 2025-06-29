@@ -1,3 +1,5 @@
+// Solo podras hacer una busquda si estas registrado en https://clover.space/ funciona igual para https://clover.social/
+
 (async function () {
   const API_BASE = 'https://api.clover.space/v2/search/blogs?word=t.me&size=30';
   const MOCKAPI_URL = 'https://685f835bc55df675589e7e04.mockapi.io/Api/Bsz/Busqueda';
@@ -11,11 +13,11 @@
     "contentregion": "5",
     "countrycode": "US",
     "devicetype": "1",
-    "hjtrfs": "",
-    "nonce": "",
+    "hjtrfs": "", ---> esto lo tendras que agregar tu 
+    "nonce": "", ---> esto lo tendras que agregar tu 
     "ostype": "2",
-    "rawdeviceid": "",
-    "rawdeviceidthree": "",
+    "rawdeviceid": "", ---> esto lo tendras que agregar tu 
+    "rawdeviceidthree": "", ---> esto lo tendras que agregar tu 
     "reqtime": "1751097207221",
     "sec-ch-ua": "\"Microsoft Edge\";v=\"137\", \"Chromium\";v=\"137\", \"Not/A)Brand\";v=\"24\"",
     "sec-ch-ua-mobile": "?1",
@@ -23,7 +25,7 @@
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-site",
-    "sid": "",
+    "sid": "", ---> esto lo tendras que agregar tu 
     "timezone": "-360",
     "timezoneid": "America/Mexico_City"
   };
