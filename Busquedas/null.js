@@ -2,7 +2,7 @@
 
 (async function () {
   const API_BASE = 'https://api.clover.space/v2/search/blogs?word=t.me&size=30';
-  const MOCKAPI_URL = 'https://685f835bc55df675589e7e04.mockapi.io/Api/Bsz/Busqueda';
+  const MOCKAPI_URL = 'https://mockapi.io/';
 
   const HEADERS = {
     "accept": "application/json, text/plain, */*",
