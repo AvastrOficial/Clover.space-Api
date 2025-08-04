@@ -68,3 +68,24 @@ web : https://appbsz.crearforo.net/h166-usuarios-clover
 - Se utiliza `setTimeout` para evitar errores 429 (too many requests).
 - La API de Clover Space puede cambiar o restringirse, lo que podría afectar la funcionalidad del visor.
 - Si deseas un diseño más atractivo, puedes agregar un archivo CSS que le dé estilo a las `.user-card`, `.avatar`, `.user-info`, etc.
+
+## 📌 Requisitos Técnicos para Acceder a la Lista
+
+### ✅ 1. **Permiso Público de API**
+La API de Clover Space utilizada en este proyecto no requiere autenticación (`public endpoint`) y permite acceso sin token:
+
+```js
+GET https://api.clover.space/f/v1/users/namecards
+
+```
+### ✅ 2. **Uso de Proxy CORS**
+Debido a que la API **no permite llamadas directas desde el navegador por CORS**, se necesita un **proxy CORS**. Este proyecto utiliza:
+
+`https://api.allorigins.win/raw?url=`
+
+El endpoint final queda así:
+
+`https://api.allorigins.win/raw?url=https%3A%2F%2Fapi.clover.space%2Ff%2Fv1%2Fusers%2Fnamecards`
+
+> ⚠️ Si quieres evitar el proxy, deberás montar un servidor backend que reenvíe la solicitud (Node.js, Python, etc.).
+
